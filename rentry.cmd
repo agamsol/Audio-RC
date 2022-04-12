@@ -19,8 +19,6 @@ for /L %%a in (1 1 !Args.length!) do (
         if /i "!Arg[%%a]!"=="--%%~b" (
             set Arg.Next=%%a
             set /a Arg.Next+=1
-            REM ----- GENERAL -----
-            REM --url <url>
             if /i "%%~b"=="url" (
                 for /f "delims=" %%c in ("!Arg.Next!") do (
                     set temp.url=!Arg[%%c]!
@@ -30,19 +28,16 @@ for /L %%a in (1 1 !Args.length!) do (
                     )
                 )
             )
-            REM --edit-code <edit_code>
             if /i "%%~b"=="edit-code" (
                 for /f "delims=" %%c in ("!Arg.Next!") do (
                     set temp.edit-code=!Arg[%%c]!
                 )
             )
-            REM --file <file>
             if /i "%%~b"=="file" (
                 for /f "delims=" %%c in ("!Arg.Next!") do (
                     set temp.file=!Arg[%%c]!
                 )
             )
-            REM --curl <curl>
             if /i "%%~b"=="curl" (
                 for /f "delims=" %%c in ("!Arg.Next!") do (
                     REM MAKE THIS CURL FUNCTION AND THEN FINISH AND RELEASE!
@@ -205,7 +200,7 @@ for /f "tokens=1-2 delims=:; " %%a in ('"!temp.curl!" -k --silent --head https:/
 exit /b
 
 :: ADDON \ PARSE JSON KEYS FROM FILE
-:JsonParse <Json file> <Json keys to parse>
+:JsonParse
 chcp 437>nul
 for %%a in ("ParseSource" "JsonKeys" "ParseKeys") do set %%~a=
 set "ParseSource=%~1"
