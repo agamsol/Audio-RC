@@ -218,6 +218,15 @@ if defined Arg[1] (
 timeout /t 2 /nobreak >nul
 
 :SOCKET
+:INTERNET_CONNECTION_SOCKET
+ping -n 1 youtube.com | findstr /c:"TTL">nul || (
+    echo:
+    echo  ERROR: Unable to connect to youtube.com
+    echo         Retrying in 5 seconds
+    timeout /t 5 /nobreak>nul
+    goto :INTERNET_CONNECTION_SOCKET
+)
+
 call "!File[1]!" --raw --url "!HOST.ID!" --file "!File[6]!" --curl "!PATHS.curl!"
 call :JsonParse "!File[6]!" !AllHOSTJsonKeys!
 
