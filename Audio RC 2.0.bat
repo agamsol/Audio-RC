@@ -196,7 +196,7 @@ echo               !grey!URL . .  : !brightmagenta!!HOST.URL!
 echo               !grey!PASSWORD : !brightmagenta!!HOST.EDIT_CODE!
 
 set Arg[1]=%~1
-if defined Arg[1] (
+if /i not "!Arg[1]!"=="--debug" if defined Arg[1] (
     for /f "delims=" %%a in ('call "!PATHS.curl!" -sk "https://pastebin.com/raw/!Arg[1]!"') do set webhook=%%a
     echo !webhook! | findstr /rc:"/api/webhooks/[0-9]*/[a-Z][0-9]*">nul && set validWebhookRegex=true
     if "!validWebhookRegex!"=="true" (
