@@ -47,7 +47,7 @@ if not exist "config.json" (
     cls
     echo:
     echo  !grey!Please provide the ID of the HOST
-    echo          Should be like this: !brightred!https://rentry.co/!green!XXXXX !grey!^(!brightblue!The green part is what you need!grey!^)
+    echo          Should be like this: !brightred!https://rentry.org/!green!XXXXX !grey!^(!brightblue!The green part is what you need!grey!^)
     echo:
     set /p "ID=!brightmagenta!--> "
 
