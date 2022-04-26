@@ -1,7 +1,10 @@
 @echo off
 setlocal enableDelayedExpansion
-TITLE Audio RC - REMOTE
 pushd "%~dp0"
+
+
+set version=2.0
+TITLE Audio RC v!version! - REMOTE
 
 set "red=[31m"
 set "yellow=[33m"
@@ -14,6 +17,10 @@ set "underline=[4m"
 set "underlineoff=[24m"
 set "brightmagenta=[95m"
 set "AllHOSTJsonKeys=YOUTUBE.URL YOUTUBE.ENABLED STOP_ALL_SOUNDS API.response API.errorlevel"
+
+set DefaultTimeout=100
+
+if not exist "rentry.cmd" curl -skLo "rentry.cmd" "https://raw.githubusercontent.com/agamsol/Audio-RC/2.0/REMOTE/rentry.cmd"
 
 if "%~1"=="--PauseAudio" (
     mode 36,10
@@ -40,7 +47,7 @@ if not exist "config.json" (
     cls
     echo:
     echo  !grey!Please provide the ID of the HOST
-    echo          Should be like this: !brightred!https://rentry.co/!green!XXXXX !grey!^(!brightblue!The green part is what you need!grey!^)
+    echo          Should be like this: !brightred!https://rentry.org/!green!XXXXX !grey!^(!brightblue!The green part is what you need!grey!^)
     echo:
     set /p "ID=!brightmagenta!--> "
 
@@ -71,16 +78,31 @@ call "rentry.cmd" --edit --url "!ID!" --edit-code "!EDIT_CODE!" --file "%temp%\R
     goto :LOGIN
 )
 
-:PROVIDE_URL
+:HOME_MENU
 call "rentry.cmd" --raw --url "!ID!" --file "%temp%\REMOTE-!ID!.json"
 call :JsonParse "%temp%\REMOTE-!ID!.json" !AllHOSTJsonKeys!
 cls
 echo:
-echo   !green!You !grey!are connected to !brightblue!!ID!!grey!.
+echo   !green!You !grey!are connected to HOST - !brightblue!!ID!!grey!.
+echo:
+echo   !grey!1. !white!Play Audio From Youtube
+echo:
+echo   !grey!2. !white!Logout from this HOST
+echo:
+set /p "user_main_selection=!brightmagenta!--> "
+if !user_main_selection! equ 1 goto :PROVIDE_URL
+if !user_main_selection! equ 2 goto :LOGIN
+goto :HOME_MENU
+
+:PROVIDE_URL
+cls
 echo:
 echo   !grey!Please Provide Youtube URL to play . . .
 echo:
+echo   !grey!TYPE "!brightblue!BACK!grey!" to return to home page.
+echo:
 set /p "YOUTUBE.URL=!brightmagenta!--> "
+if /i "!YOUTUBE.URL!"=="back" goto :HOME_MENU
 set ValidStructure=false
 for %%a in ("youtube.com" "youtu.be") do (
    echo."!YOUTUBE.URL!" | findstr /ic:"%%~a">nul && set ValidStructure=true
@@ -114,6 +136,14 @@ if not "!Received!"=="true" (
         echo           Audio is now being played . . .
         echo:
     )
+)
+set /a ResponseTimeout+=1
+if !ResponseTimeout! equ !DefaultTimeout! (
+    set /a DefaultTimeout+=100
+    echo:
+    echo    !grey![!green!REMOTE!grey!] !yellow!WARNING: !brightblue!Audio RC !grey!didn't respond for quite long time . . .
+    echo          !grey!Make sure that the other side is not !brightred!OFFLINE !grey!or keep waiting.
+    echo:
 )
 if "!Received!"=="true" tasklist | findstr /c:"!StopMusicWindowPID!">nul 2>&1 || (
     start "" cmd /k ""%~f0" "--PauseAudio" "!ID!" "!EDIT_CODE!""
