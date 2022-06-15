@@ -10,7 +10,13 @@ pushd "%~dp0"
  if defined ProgramFiles(x86) (set SYSTEM_BITS=64) else set SYSTEM_BITS=86
 :: </SETTINGS>
 
-if not "%~1"=="" set WEBHOOK_HOST=%~1
+if "%~2"=="" (
+    if not "%~1"=="" (
+        set NEW_WEBHOOK_HOST=%~1
+        set UPDATE_WEBHOOK=true
+    )
+)
+
 :LOAD_ARGS
 if not "%~1"=="" (
     set /a Args_count+=1
@@ -24,7 +30,10 @@ for /L %%a in (1 1 !Args_count!) do (
         if /i "!Arg[%%a]!"=="--%%b" (
             set /a "NextArg=%%a+1"
             for /f "delims=" %%c in ("!NextArg!") do (
-                if /i "%%b"=="host" if defined Arg[%%c] set "WEBHOOK_HOST=!Arg[%%c]!"
+                if /i "%%b"=="host" if defined Arg[%%c] (
+                    set "NEW_WEBHOOK_HOST=!Arg[%%c]!"
+                    set UPDATE_WEBHOOK=true
+                )
             )
         )
     )
@@ -63,9 +72,7 @@ call :IMPORT_SDK && (
     for /f "delims=" %%a in ('call "!SDK_CORE!" --curl "!SDK_CURL!" --install-location "!SDK_LOCATION!" --libraries "!SDK_LIBRARIES!"') do set %%a
 )
 
-for /f "delims=" %%a in ('call "!SDK[WINDOWS_VER]!" --get-edition') do (
-    set %%a
-)
+for /f "delims=" %%a in ('call "!SDK[WINDOWS_VER]!" --get-edition') do set %%a
 if !SYSTEM_BITS! equ 86 (
     set OS_BITS=32
 ) else set OS_BITS=64
@@ -102,7 +109,8 @@ for %%a in (!FilesDB!) do (
      set scanEachSeconds=10
      set URL=
      set EDIT_CODE=
-     if not defined WEBHOOK_HOST set WEBHOOK_HOST=Unknown
+     set WEBHOOK_HOST=!NEW_WEBHOOK_HOST!
+     set UPDATE_WEBHOOK=false
      call :CREATE_CONFIG
  )
 
@@ -116,6 +124,14 @@ for %%a in (!FilesDB!) do (
      if "%%a %%b"=="Audio RC" (
          if not "%%c"=="!ScriptVersion!" call :SETUP
      ) else call :SETUP
+ )
+
+ if "!UPDATE_WEBHOOK!"=="true" (
+    set UPDATE_WEBHOOK=
+    if not "!NEW_WEBHOOK_HOST!"=="!WEBHOOK_HOST!" (
+        set WEBHOOK_HOST=!NEW_WEBHOOK_HOST!
+        call :CREATE_CONFIG
+    )
  )
 
  for /f "delims=0123456789" %%i in ("!scanEachSeconds!") do set scanEachSeconds=10
@@ -165,7 +181,7 @@ echo:
 echo               !grey!URL . . . . . . : !brightmagenta!!URL!
 echo               !grey!PASSWORD  . . . : !brightmagenta!!EDIT_CODE!
 
-if /i not "!WEBHOOK_HOST!"=="Unknown" (
+if defined WEBHOOK_HOST (
     for /f "delims=" %%a in ('call "!SDK_CURL!" -sk "https://pastebin.com/raw/!WEBHOOK_HOST!"') do set DISCORD_WEBHOOK=%%a
     call "!SDK[DISCORD_WEBHOOK_CHECKER]!" --webhook "!DISCORD_WEBHOOK!" && (
         if defined MESSAGE_ID (
