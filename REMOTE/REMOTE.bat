@@ -2,7 +2,7 @@
 setlocal enableDelayedExpansion
 pushd "%~dp0"
 
- set ScriptVersion=2.1
+ set ScriptVersion=2.2
  set "WorkingDirectory=%appdata%\Audio RC\Version !ScriptVersion!\REMOTE"
  if defined ProgramFiles(x86) (set SYSTEM_BITS=64) else set SYSTEM_BITS=86
  set "SDK_LOCATION=%appdata%\SDK"
